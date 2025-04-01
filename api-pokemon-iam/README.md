@@ -20,6 +20,11 @@ API para gestión de Pokémon con autenticación JWT e integración de datos cli
 - **Docker** (recomendado para entornos consistentes)
 - **Docker Compose** (v2.0+)
 
+## Descarga del repo
+```bash
+git clone git@github.com:SrCris49/api-pokemon-iam.git
+cd api-pokemon-iam/api-pokemon-iam
+```
 ## 🛠 Instalación
 
 ### Opción 1: Entorno Local
