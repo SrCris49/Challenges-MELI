@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=1  # Modo desarrollo
+    volumes:
+      - ./:/app  # Sync de código en vivo
