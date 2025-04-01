@@ -9,10 +9,10 @@ API para gestión de Pokémon con autenticación JWT e integración de datos cli
 ## 📋 Tabla de Contenidos
 - [Requisitos](#-requisitos)
 - [Instalación](#-instalación)
-- [Autenticación](#-autenticación)
+- [Autenticación](#-Autenticación_JWT)
 - [Endpoints](#-endpoints)
 - [Ejemplos](#-ejemplos)
-- [Despliegue](#-despliegue)
+- [Despliegue](#-Despliegue_con_Docker)
 - [Seguridad](#-seguridad)
 
 ## 🔧 Requisitos
@@ -40,7 +40,7 @@ docker-compose up --build
 docker-compose up
 ```
 
-🔐 Autenticación JWT
+## 🔐 Autenticación JWT
 La API usa JSON Web Tokens para autenticación. Debes incluir el token en el header Authorization.
 
 Obtener Token
@@ -51,7 +51,7 @@ curl -X POST http://localhost:5000/login \
 ```
   Nota: Configura las credenciales en el archivo .env (ver Seguridad).
 
-🌐 Endpoints
+## 🌐 Endpoints
 🐉 Pokémon
 Método	Endpoint	Descripción	Requiere Auth
 GET	/pokemon/<nombre>	Obtener tipo de Pokémon	✅
@@ -66,7 +66,7 @@ GET /strongest-pokemon?city=<ciudad> Pokémon más fuerte según clima  ✅
 | POST | /refresh | Refrescar access token | ✅ (refresh token) |
 | DELETE | /logout | Invalidar token | ✅ |
 
-📖 Ejemplos
+## 📖 Ejemplos
 Flujo Completo
 
 # 1. Autenticación
@@ -115,7 +115,7 @@ Pokémon + Clima:
 }
 ```
 
-🐳 Despliegue con Docker
+## 🐳 Despliegue con Docker
 Comandos Esenciales
 ```bash
 # Construir imagen
@@ -137,18 +137,17 @@ pokemon-iam/
 ├── requirements.txt    # Dependencias
 └── .env.example        # Plantilla de variables
 
-🔒 Seguridad
+## 🔒 Seguridad
 Configuración Requerida
 Crear archivo .env basado en .env.example:
 
 ```bash
-JWT_SECRET_KEY=tu_clave_super_secreta
 ADMIN_PASSWORD=contraseña_fuerte
 ```
 
 Buenas Prácticas:
 
-Nunca comitear archivos .env todo enviarlo al .gitignore
+Nunca comitear archivos .env  #todo enviarlo al .gitignore
 
 Usar HTTPS en producción
 
