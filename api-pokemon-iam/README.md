@@ -29,32 +29,25 @@ pip install -r requirements.txt
 
 # Iniciar servidor (modo desarrollo)
 flask run --host=0.0.0.0 --port=5000
+
 Opción 2: Docker (Recomendado)
-bash
-Copy
+
 # Construir y ejecutar
 docker-compose up --build
 
 # Solo ejecutar (si ya está construido)
 docker-compose up
+
 🔐 Autenticación JWT
 La API usa JSON Web Tokens para autenticación. Debes incluir el token en el header Authorization.
 
 Obtener Token
-bash
-Copy
+
 curl -X POST http://localhost:5000/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin", "password":"$ADMIN_PASSWORD"}'
-Respuesta:
 
-json
-Copy
-{
-  "access_token": "eyJhbGciOi...",
-  "refresh_token": "eyJhbGciOi..."
-}
-Nota: La contraseña se configura en el archivo .env (ver Seguridad).
+  Nota: Configura las credenciales en el archivo .env (ver Seguridad).
 
 🌐 Endpoints
 🐉 Pokémon
@@ -63,7 +56,7 @@ GET	/pokemon/<nombre>	Obtener tipo de Pokémon	✅
 GET	/random-pokemon/<tipo>	Pokémon aleatorio por tipo	✅
 GET	/longest-name/<tipo>	Pokémon con nombre más largo	✅
 🌦️ Clima
-| GET | /weather?city=<ciudad> | Obtener temperatura actual | ❌ |
+| GET | /weather?city=<ciudad> | Obtener temperatura actual | ✅ |
 | GET | /strongest-pokemon?city=<ciudad> | Pokémon más fuerte según clima | ✅ |
 
 🔄 Tokens
@@ -72,8 +65,7 @@ GET	/longest-name/<tipo>	Pokémon con nombre más largo	✅
 
 📖 Ejemplos
 Flujo Completo
-bash
-Copy
+
 # 1. Autenticación
 TOKEN=$(curl -s -X POST http://localhost:5000/login \
   -H "Content-Type: application/json" \
@@ -89,7 +81,8 @@ curl -X GET "http://localhost:5000/weather?city=Bogota"
 # 4. Cerrar sesión
 curl -X DELETE http://localhost:5000/logout \
   -H "Authorization: Bearer $TOKEN"
-Salidas Esperadas
+
+  Salidas Esperadas
 <details> <summary>Ver ejemplos JSON</summary>
 Pokémon:
 
@@ -161,3 +154,4 @@ Usar gestores de secrets (Hashicorp Vault/AWS Secrets Manager)
 Para problemas o preguntas, abre un issue en el repositorio.
 
 ✨ Tip: Usa jq para procesar respuestas JSON en bash (sudo apt install jq en Ubuntu)
+
