@@ -77,4 +77,4 @@ Auditoría	Azure Access Reviews	Revisiones automáticas mensuales
 ! [ ] Implementar políticas DLP para datos sensibles (En progreso)
 - [ ] Automatizar reportes de cumplimiento (Q3 2023)
 
-<div align="center" style="margin-top: 40px; border-top: 1px solid #e1e4e8; padding-top: 20px;"> <strong>✨ "La seguridad no es un producto, sino un proceso continuo"</strong> <p>Propuesta técnica desarrollada por [Cristian Barragán]</p> <sub>📅 Actualizado: {01/04/2025} | 🔗 [Documentación Completa](link_pdf)</sub> </div> ```
+<div align="center" style="margin-top: 40px; border-top: 1px solid #e1e4e8; padding-top: 20px;"> <strong>✨ "La seguridad no es un producto, sino un proceso continuo"</strong> <p>Propuesta técnica desarrollada por [Cristian Barragán]</p> <sub>📅 Actualizado: {01/04/2025} | 🔗 [Documentación Completa](https://github.com/SrCris49/Challenges-MELI/blob/master/Kimberly%20SAS/Propuesta%20de%20proyecto.pdf)</sub> </div>
