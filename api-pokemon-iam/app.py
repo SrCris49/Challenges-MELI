@@ -21,7 +21,6 @@ def load_users():
     for key, value in os.environ.items():
         if key.startswith("USER_"):
             username = key[5:].lower()
-            print(f"DEBUG: Cargando usuario {username} con datos {value}")  # <-- Agregar esta línea
             password, role = value.split('|')
             users[username] = {"password": password, "role": role}
     return users
@@ -97,10 +96,6 @@ def login():
     
     users = load_users()
 
-     # Imprimir los valores que se están comparando
-    print(f"DEBUG: Usuario ingresado: {username}, Contraseña ingresada: {password}")
-    print(f"DEBUG: Usuarios cargados: {users}")
-    
     if username in users and password == users[username]["password"]:
         access_token = create_access_token(
             identity=username,
