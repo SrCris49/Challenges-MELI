@@ -47,17 +47,9 @@ Obtener Token
 ```bash
 curl -X POST http://localhost:5000/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"admin", "password":"$ADMIN_PASSWORD"}'
+  -d '{"username":"admin", "password":"<PASS DENTRO DE LA VARIABLE $USER_ADMIN DEL .ENV>"}'
 ```
   Nota: Configura las credenciales en el archivo .env (ver Seguridad).
-
-## 🌐 Endpoints
-🐉 Pokémon
-Método	Endpoint	Descripción	Requiere Auth
-GET	/pokemon/<nombre>	Obtener tipo de Pokémon	✅
-GET	/random-pokemon/<tipo>	Pokémon aleatorio por tipo	✅
-GET	/longest-name/<tipo>	Pokémon con nombre más largo	✅
-GET /strongest-pokemon?city=<ciudad> Pokémon más fuerte según clima  ✅
 
 🌦️ Clima
 | GET | /weather?city=<ciudad> | Obtener temperatura actual | ❌ |
@@ -75,11 +67,32 @@ TOKEN=$(curl -s -X POST http://localhost:5000/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin", "password":"$ADMIN_PASSWORD"}' | jq -r '.access_token')
 ```
-# 2. Consultar Pokémon
+# 2. Funcionamiento de los Endpoints
+
+## 🌐 Endpoints
+🐉 Pokémon
+Método	Endpoint	Descripción	Requiere Auth
+GET	/pokemon/<nombre>	Obtener tipo de Pokémon	✅
 ```bash
 curl -X GET http://localhost:5000/pokemon/pikachu \
   -H "Authorization: Bearer $TOKEN"
 ```
+GET	/random-pokemon/<tipo>	Pokémon aleatorio por tipo	✅
+```bash
+curl -X GET http://localhost:5000/random-pokemon/fire \
+  -H "Authorization: Bearer $TOKEN"
+```     
+GET	/longest-name/<tipo>	Pokémon con nombre más largo	✅
+```bash
+curl -X GET http://localhost:5000/longest-name/water \
+  -H "Authorization: Bearer $TOKEN"
+```     
+GET /strongest-pokemon?city=<ciudad> Pokémon más fuerte según clima  ✅
+```bash
+curl -X GET http://127.0.0.1:5000/strongest-pokemon?city=Cali \
+  -H "Authorization: Bearer $TOKEN"
+```  
+
 # 3. Consultar clima
 ```bash
 curl -X GET "http://localhost:5000/weather?city=Bogota"
