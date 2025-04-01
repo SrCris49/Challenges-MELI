@@ -71,7 +71,7 @@ TOKEN=$(curl -s -X POST http://localhost:5000/login \
 
 ## 🌐 Endpoints
 🐉 Pokémon
-Método	Endpoint	Descripción	Requiere Auth
+
 GET	/pokemon/<nombre>	Obtener tipo de Pokémon	✅
 ```bash
 curl -X GET http://localhost:5000/pokemon/pikachu \
