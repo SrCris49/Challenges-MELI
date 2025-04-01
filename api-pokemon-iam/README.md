@@ -160,7 +160,15 @@ Configuración Requerida
 Crear archivo .env basado en .env.example:
 
 ```bash
-ADMIN_PASSWORD=contraseña_fuerte
+# Usuarios (formato: USER_<nombre>=<password>|<rol>)
+USER_ADMIN=megaclave1234..|admin
+USER_POKEMASTER=pokemon123|trainer
+USER_GUEST=guest123|viewer
+# Configuración JWT
+JWT_SECRET_KEY=tu_clave_super_secreta_aqui
+# APIS EXTERNAS
+POKEAPI_URL=https://pokeapi.co/api/v2
+WEATHER_API_URL=https://api.open-meteo.com/v1
 ```
 
 Buenas Prácticas:
