@@ -5,24 +5,19 @@ from dotenv import load_dotenv
 import requests
 import random
 import logging
+import subprocess
 
 blacklist = set()
 
 # Configuración básica
 load_dotenv()
 app = Flask(__name__)
-app.config["ADMIN_PASSWORD"] = os.getenv("ADMIN_PASSWORD")
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Necesario para JWT
 jwt = JWTManager(app)
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# Datos de usuarios y coordenada
-users = {
-    "admin": {"password": "z6!gzS58m4Z!Kc..*", "role": "admin"},
-    "user": {"password": "1234", "role": "read_only"}
-}
 
 coordinates = {
     # Colombia
@@ -86,21 +81,34 @@ def get_strongest_type(temperature):
 # Endpoints
 @app.route("/login", methods=["POST"])
 def login():
-    # 1. Validar credenciales (parte existente)
     username = request.json.get("username")
     password = request.json.get("password")
     
-    if username not in users or users[username]["password"] != password:
+    # Validar credenciales usando login.sh
+    try:
+        result = subprocess.run(
+            ["./login.sh", username, password],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        # El script debe devolver el rol en stdout si es exitoso
+        role = result.stdout.strip()
+        
+    except subprocess.CalledProcessError:
         return jsonify({"error": "Invalid credentials"}), 401
+    except Exception as e:
+        logger.error(f"Error during authentication: {str(e)}")
+        return jsonify({"error": "Authentication failed"}), 500
 
-    # 2. Generar ambos tokens (versión corregida)
+    # Generar tokens
     access_token = create_access_token(
         identity=username,
-        additional_claims={"role": users[username]["role"]}  # Claim de rol
+        additional_claims={"role": role}
     )
-    refresh_token = create_refresh_token(identity=username)  # Refresh token
+    refresh_token = create_refresh_token(identity=username)
     
-    # 3. Devolver ambos tokens
     return jsonify({
         "access_token": access_token,
         "refresh_token": refresh_token
@@ -122,6 +130,7 @@ def logout():
     blacklist.add(jti)
     return jsonify({"msg": "Successfully logged out"}), 200
 
+# endpoint para buscar pokemon por nombre
 @app.route("/pokemon/<name>", methods=["GET"])
 @jwt_required()
 def get_pokemon_type(name):
@@ -130,6 +139,7 @@ def get_pokemon_type(name):
         return jsonify({"error": "Pokémon not found"}), 404
     return jsonify({"name": name, "type": pokemon_type})
 
+#endoint para buscar pokemon por tipo
 @app.route("/random-pokemon/<type>", methods=["GET"])
 @jwt_required()
 def get_random_pokemon(type):
@@ -138,6 +148,7 @@ def get_random_pokemon(type):
         return jsonify({"error": "No Pokémon found for this type"}), 404
     return jsonify({"type": type, "random_pokemon": random.choice(pokemon_list)})
 
+#endpoint para buscar el pokemon con el nombre más largo por tipo
 @app.route("/longest-name/<type>", methods=["GET"])
 @jwt_required()
 def get_longest_name_pokemon(type):
@@ -149,6 +160,7 @@ def get_longest_name_pokemon(type):
         "longest_name": max(pokemon_list, key=lambda x: len(x))
     })
 
+#endpoint para obtener el clima
 @app.route("/weather", methods=["GET"])
 def get_weather():
     city = request.args.get("city", default="Bogota")
@@ -173,6 +185,7 @@ def get_weather():
         "unit": "C"
     })
 
+#endpoint para obtener el pokemon más fuerte
 @app.route("/strongest-pokemon", methods=["GET"])
 @jwt_required()
 def get_strongest_pokemon():
